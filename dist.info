@@ -1,0 +1,10 @@
+--- This file is part of LuaDist project
+
+name = "vstruct"
+version = "1.1"
+
+desc = "A Lua library for packing and unpacking binary data, supporting arbitrary (byte-aligned) widths, named fields, and repetition."
+author = "Ben Kelly"
+license = "MIT/X11"
+url = "https://github.com/ToxicFrog/vstruct"
+maintainer = "Peter Drahoš"
