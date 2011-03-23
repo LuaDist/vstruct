@@ -323,15 +323,21 @@ endmacro ()
 macro (install_lua_module _name )
   string ( REPLACE "." "/" _module "${_name}" )
   string ( REPLACE "." "_" _target "${_name}" )
-  
-  set ( _lua_module "${_module}.lua" )
-  set ( _bin_module "${_module}${CMAKE_SHARED_MODULE_SUFFIX}" )
-  
+
   parse_arguments ( _MODULE "LINK" "" ${ARGN} )
-  get_filename_component ( _ext ${ARGV1} EXT )
-  if ( _ext STREQUAL ".lua" )
-      get_filename_component ( _path ${_lua_module} PATH )
+  get_filename_component ( _srcext ${ARGV1} EXT )
+  get_filename_component ( _srcname ${ARGV1} NAME )
+
+  if ( ${_srcname} STREQUAL "init.lua" )
+    set ( _lua_module ${_module}/init.lua )
+  else ()
+    set ( _lua_module "${_module}.lua" )
+  endif ()
+  set ( _bin_module "${_module}${CMAKE_SHARED_MODULE_SUFFIX}" )
+
+  if ( _srcext STREQUAL ".lua" )
       get_filename_component ( _filename ${_lua_module} NAME )
+      get_filename_component ( _path ${_lua_module} PATH )
       install ( FILES ${ARGV1} DESTINATION ${INSTALL_LMOD}/${_path} RENAME ${_filename} )
   else ()
      enable_language ( C )
@@ -358,7 +364,7 @@ endmacro ()
 # USE: add_lua_test ( test/test1.lua )
 macro ( add_lua_test _testfile )
 	if ( NOT SKIP_TESTING )
-		include ( CTest )
+  	include ( CTest )
 		find_program ( LUA NAMES lua lua.bat )
 		get_filename_component ( TESTFILEABS ${_testfile} ABSOLUTE )
 		get_filename_component ( TESTFILENAME ${_testfile} NAME )
@@ -372,6 +378,7 @@ local sodir = '${CMAKE_CURRENT_BINARY_DIR}' .. (configuration == '' and '' or '/
 package.path  = sodir .. '/?.lua\;' .. sodir .. '/?.lua\;' .. package.path
 package.cpath = sodir .. '/?.so\;'  .. sodir .. '/?.dll\;' .. package.cpath
 arg[0] = '${TESTFILEABS}'
+table.remove(arg, 1)
 return dofile '${TESTFILEABS}'
 "		)
 		if ( ${ARGC} GREATER 1 )
