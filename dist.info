@@ -4,7 +4,7 @@ name = "vstruct"
 version = "1.1"
 
 desc = "Packing and unpacking binary data in pure Lua"
-author = 'Ben "ToxicFrog" Kelly'
+author = "Ben Kelly"
 license = "MIT/X11"
 url = ""
 maintainer = "David Manura" -- of LuaDist files
