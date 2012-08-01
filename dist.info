@@ -6,7 +6,7 @@ version = "1.1"
 desc = "Packing and unpacking binary data in pure Lua"
 author = "Ben Kelly"
 license = "MIT/X11"
-url = ""
+url = "https://github.com/ToxicFrog/vstruct"
 maintainer = "David Manura" -- of LuaDist files
 
 depends = {
